@@ -6,6 +6,7 @@
     "license" : "MIT",
     "autoload": {
         "psr-4": {
+            "by\\component\\": "src/",
             "by\\component\\chat_server\\": "src/chat_server/"
         }
     },

@@ -12,6 +12,8 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Workerman\WebServer;
 use Workerman\Worker;
 

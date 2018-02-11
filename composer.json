@@ -1,0 +1,10 @@
+{
+    "name"  : "itboye/component-web-chat",
+    "type"  : "project",
+    "keywords": ["web-chat"],
+    "homepage": "http://www.hebidu.cn",
+    "license" : "MIT",
+    "require": {
+        "workerman/gateway-worker-for-win" : ">=3.0.0"
+    }
+}

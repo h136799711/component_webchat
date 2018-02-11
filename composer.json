@@ -6,7 +6,7 @@
     "license" : "MIT",
     "autoload": {
         "psr-4": {
-            "by\\application\\pabank\\": "src/",
+            "by\\component\\chat_server\\": "src/chat_server/"
         }
     },
     "require": {

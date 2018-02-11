@@ -20,8 +20,7 @@ $web = new WebServer("http://0.0.0.0:55151");
 // WebServer进程数量
 $web->count = 2;
 // 设置站点根目录
-$web->addRoot('www.your_domain.com', __DIR__.'/Web');
-
+$web->addRoot('chat.8raw.com', __DIR__.'/chat_web_client');
 
 // 如果不是在根目录启动，则运行runAll方法
 if(!defined('GLOBAL_START'))

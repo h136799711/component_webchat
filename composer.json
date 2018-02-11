@@ -4,6 +4,11 @@
     "keywords": ["web-chat"],
     "homepage": "http://www.hebidu.cn",
     "license" : "MIT",
+    "autoload": {
+        "psr-4": {
+            "by\\application\\pabank\\": "src/",
+        }
+    },
     "require": {
         "workerman/gateway-worker-for-win" : ">=3.0.0"
     }

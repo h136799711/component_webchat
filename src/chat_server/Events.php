@@ -59,14 +59,23 @@ class Events
                     throw new \Exception("\$message_data['room_id'] not set. client_ip:{$_SERVER['REMOTE_ADDR']} \$message:$message");
                 }
 
+                if (!array_key_exists('uid', $message_data)) {
+                    $uid = $message_data['uid'];
+                }
+
                 // 把房间号昵称放到session中
                 $room_id = $message_data['room_id'];
+                //
+                $clients_list = Gateway::getClientSessionsByGroup($room_id);
+                if (count($clients_list) > 100) {
+
+                }
+
                 $client_name = htmlspecialchars($message_data['client_name']);
                 $_SESSION['room_id'] = $room_id;
                 $_SESSION['client_name'] = $client_name;
 
-                // 获取房间内所有用户列表 
-                $clients_list = Gateway::getClientSessionsByGroup($room_id);
+                // 获取房间内所有用户列表
                 foreach ($clients_list as $tmp_client_id => $item) {
                     $clients_list[$tmp_client_id] = $item['client_name'];
                 }
@@ -125,9 +134,6 @@ class Events
      */
     public static function onClose($client_id)
     {
-        // debug
-        echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id onClose:''\n";
-
         // 从房间的客户端列表中删除
         if (isset($_SESSION['room_id'])) {
             $room_id = $_SESSION['room_id'];

@@ -11,6 +11,7 @@
         }
     },
     "require": {
+        "itboye/architecture": "dev-master",
         "workerman/gateway-worker" : ">=3.0.0"
     }
 }

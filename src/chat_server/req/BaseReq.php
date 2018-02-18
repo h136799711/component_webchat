@@ -32,6 +32,11 @@ abstract class BaseReq
         }
     }
 
+    public function toArray()
+    {
+        return Object2DataArrayHelper::getDataArrayFrom($this);
+    }
+
     /**
      * @return mixed
      */

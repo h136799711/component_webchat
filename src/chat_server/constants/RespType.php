@@ -23,6 +23,12 @@ namespace by\component\chat_server\constants;
  */
 class RespType
 {
+
+    /**
+     *
+     */
+    const Pong = "122";
+
     /**
      * 登录 - 连接
      */
@@ -37,4 +43,6 @@ class RespType
      * 登出
      */
     const Logout = "199";
+
+    const Error = "-1";
 }

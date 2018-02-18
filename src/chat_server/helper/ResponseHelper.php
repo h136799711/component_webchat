@@ -18,16 +18,25 @@ namespace by\component\chat_server\helper;
 
 
 use by\component\chat_server\resp\BaseResp;
+use by\component\chat_server\resp\ErrorResp;
 use GatewayWorker\Lib\Gateway;
 
 class ResponseHelper
 {
-    public static function sendToOne($uid, BaseResp $resp) {
+    public static function sendToOneByClientId($clientId, BaseResp $resp) {
+        $json = $resp->toJson();
+        Gateway::sendToClient($clientId, $json);
+    }
+
+    public static function sendToOneByUid($uid, BaseResp $resp) {
         $clientAll = Gateway::getClientIdByUid($uid);
         if (count($clientAll) > 0) {
             $clientId = $clientAll[0];
             $json = $resp->toJson();
-            Gateway::sendToClient($clientId, $resp);
+            Gateway::sendToClient($clientId, $json);
+        } else {
+            $errResp = new ErrorResp(['err_msg' => '该'.$uid.'没有对于的Client_id']);
+            Gateway::sendToCurrentClient($errResp->toJson());
         }
     }
 }

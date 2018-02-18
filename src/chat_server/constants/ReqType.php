@@ -23,6 +23,7 @@ namespace by\component\chat_server\constants;
  */
 class ReqType
 {
+    const Ping = "111";
     /**
      * 登录 - 连接
      */

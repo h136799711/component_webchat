@@ -27,12 +27,29 @@ use by\component\chat_server\constants\RespType;
 class LoginResp extends BaseResp
 {
     private $uid;
+    private $clientId;
     private $onlineList;
 
     public function __construct($data = [])
     {
         parent::__construct($data);
         $this->setType(RespType::Login);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * @param mixed $clientId
+     */
+    public function setClientId($clientId)
+    {
+        $this->clientId = $clientId;
     }
 
     /**

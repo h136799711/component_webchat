@@ -27,6 +27,9 @@ class ReqFactory
         $req = null;
         // 根据类型执行不同的业务
         switch ($message_data['type']) {
+            case ReqType::Pong:
+                $req = new HeartBeatReq($message_data);
+                break;
             // 客户端回应服务端的心跳
             case ReqType::Ping:
                 $req = new HeartBeatReq($message_data);

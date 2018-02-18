@@ -45,4 +45,9 @@ class RespType
     const Logout = "logout";
 
     const Error = "error";
+
+    /**
+     * 新用户登录
+     */
+    const NewUser = "new_user";
 }

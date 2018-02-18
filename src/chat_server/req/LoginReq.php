@@ -29,11 +29,28 @@ class LoginReq extends BaseReq
     private $nick;
     private $avatar;
     private $uid;
+    private $roomId;
 
     public function __construct($data = [])
     {
         parent::__construct($data);
         $this->setType(ReqType::Login);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoomId()
+    {
+        return $this->roomId;
+    }
+
+    /**
+     * @param mixed $roomId
+     */
+    public function setRoomId($roomId)
+    {
+        $this->roomId = $roomId;
     }
 
     /**

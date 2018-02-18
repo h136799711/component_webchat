@@ -22,6 +22,7 @@ class MsgProcessAction
 
     public static function initAction()
     {
+        self::$registerAction[ReqType::Pong] = new PongAction();
         self::$registerAction[ReqType::Ping] = new HeartBeatAction();
         self::$registerAction[ReqType::Login] = new LoginAction();
     }

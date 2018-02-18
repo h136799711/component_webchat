@@ -12,8 +12,11 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 use GatewayWorker\Register;
 use Workerman\Worker;
+
 
 // register 服务必须是text协议
 $register = new Register('text://0.0.0.0:1236');

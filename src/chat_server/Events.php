@@ -34,10 +34,8 @@ class Events
 
     public static function onWorkerStart($businessWorker)
     {
-        if ($businessWorker->id == 0) {
-            self::initContext();
-            self::initTimer();
-        }
+        self::initContext();
+        self::initTimer();
     }
 
 
@@ -50,7 +48,6 @@ class Events
      */
     public static function onMessage($client_id, $message)
     {
-
 
         // 客户端传递的是json数据
         $message_data = json_decode($message, true);

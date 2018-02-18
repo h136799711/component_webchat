@@ -24,6 +24,8 @@ namespace by\component\chat_server\constants;
 class ReqType
 {
     const Ping = "ping";
+
+    const Pong = "pong";
     /**
      * 登录 - 连接
      */

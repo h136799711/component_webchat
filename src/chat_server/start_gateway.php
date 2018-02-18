@@ -15,6 +15,8 @@
 use GatewayWorker\Gateway;
 use Workerman\Worker;
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 // gateway 进程
 $gateway = new Gateway("Websocket://0.0.0.0:17272");
 // 设置名称，方便status时查看

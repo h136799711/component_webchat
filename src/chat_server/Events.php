@@ -109,6 +109,9 @@ class Events
         if (self::$context == null) self::$context = new \by\component\chat_server\context\ChatContext();
         self::$context->setServerStartTime(time());
         self::$context->setServerRunTime(0);
+        self::$context->setOnlineCustomerServiceList([]);
+        self::$context->setOnlineCustomerServiceCount(0);
+        self::$context->setUserCount(0);
     }
 
 }

@@ -17,7 +17,7 @@ use GatewayWorker\Lib\Gateway;
 
 class LoginAction
 {
-    public function index($clientId, BaseReq $req)
+    public function process($clientId, BaseReq $req)
     {
 
         if (!($req instanceof LoginReq)) {
@@ -33,7 +33,7 @@ class LoginAction
         $resp->setClientId($clientId);
         $resp->setUid($uid);
         $resp->setOnlineList(\Events::$context->getOnlineCustomerServiceList());
-        Gateway::sendToCurrentClient($resp->toJson());
+        Gateway::sendToClient($clientId, $resp->toJson());
 
         return CallResultHelper::success();
     }

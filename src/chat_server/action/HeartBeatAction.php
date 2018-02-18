@@ -11,11 +11,16 @@ namespace by\component\chat_server\action;
 
 use by\component\chat_server\req\BaseReq;
 use by\component\chat_server\resp\HeartBeatResp;
+use by\infrastructure\helper\CallResultHelper;
+use GatewayWorker\Lib\Gateway;
 
 class HeartBeatAction
 {
     public function process($clientId, BaseReq $req)
     {
-        return (new HeartBeatResp($req->toArray()));
+        $resp =  (new HeartBeatResp($req->toArray()));
+        Gateway::sendToClient($clientId, $resp->toJson());
+
+        return CallResultHelper::success();
     }
 }

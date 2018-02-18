@@ -32,7 +32,7 @@ class Events
     public static $context = null;
     public static $tick = 0;
 
-    public static function onWorkerStart(\Workerman\Worker $businessWorker)
+    public static function onWorkerStart($businessWorker)
     {
         if ($businessWorker->id == 0) {
             self::initContext();
@@ -50,8 +50,7 @@ class Events
      */
     public static function onMessage($client_id, $message)
     {
-        // debug
-//        echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id session:" . json_encode($_SESSION) . " onMessage:" . $message . "\n";
+
 
         // 客户端传递的是json数据
         $message_data = json_decode($message, true);

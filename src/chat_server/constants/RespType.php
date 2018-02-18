@@ -27,22 +27,22 @@ class RespType
     /**
      *
      */
-    const Pong = "122";
+    const Pong = "pong";
 
     /**
      * 登录 - 连接
      */
-    const Login = "100";
+    const Login = "login";
 
     /**
      * 普通消息 - 文本消息
      */
-    const TextMessage = "101";
+    const TextMessage = "text_msg";
 
     /**
      * 登出
      */
-    const Logout = "199";
+    const Logout = "logout";
 
-    const Error = "-1";
+    const Error = "error";
 }

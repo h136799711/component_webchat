@@ -23,19 +23,19 @@ namespace by\component\chat_server\constants;
  */
 class ReqType
 {
-    const Ping = "111";
+    const Ping = "ping";
     /**
      * 登录 - 连接
      */
-    const Login = "100";
+    const Login = "login";
 
     /**
      * 普通消息 - 文本消息
      */
-    const TextMessage = "101";
+    const TextMessage = "text_msg";
 
     /**
      * 登出
      */
-    const Logout = "199";
+    const Logout = "logout";
 }

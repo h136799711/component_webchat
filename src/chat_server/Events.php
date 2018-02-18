@@ -61,17 +61,12 @@ class Events
             return ;
         }
 
-
         $result = (new \by\component\chat_server\action\MsgProcessAction())->index($client_id, $message_data);
-
         if ($result->isFail()) {
             $errResp = new \by\component\chat_server\resp\ErrorResp(['err_msg' => $result->getMsg()]);
             \by\component\chat_server\helper\ResponseHelper::sendToOneByClientId($client_id, $errResp);
-        } else {
-            $resp = $result->getData();
-            \by\component\chat_server\helper\ResponseHelper::sendToOneByClientId($client_id, $resp);
+            return ;
         }
-
     }
 
     /**

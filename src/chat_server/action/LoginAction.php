@@ -11,7 +11,7 @@ namespace by\component\chat_server\action;
 
 use by\component\chat_server\req\BaseReq;
 use by\component\chat_server\req\LoginReq;
-use by\component\chat_server\resp\ErrorResp;
+use by\infrastructure\helper\CallResultHelper;
 use GatewayWorker\Lib\Gateway;
 
 class LoginAction
@@ -20,12 +20,13 @@ class LoginAction
     {
 
         if (!($req instanceof LoginReq)) {
-            return new ErrorResp();
+            return CallResultHelper::fail('req 不是LoginReq');
         }
 
         $uid = $req->getUid();
+        $nickname = $req->getNick();
 
-        //
+
         $clients_list = Gateway::getClientSessionsByGroup($room_id);
         if (count($clients_list) > 100) {
 

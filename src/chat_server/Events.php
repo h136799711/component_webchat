@@ -23,11 +23,23 @@
  * 聊天主逻辑
  * 主要是处理 onMessage onClose
  */
-
-use GatewayWorker\Lib\Gateway;
-
 class Events
 {
+    /**
+     * 服务器端的全局统计信息
+     * @var \by\component\chat_server\context\ChatContext
+     */
+    private static $context = null;
+    private static $tick = 0;
+
+    public static function onWorkerStart(\Workerman\Worker $businessWorker)
+    {
+        if ($businessWorker->id == 0) {
+            self::initContext();
+            self::initTimer();
+        }
+    }
+
 
     /**
      * 有消息时
@@ -39,7 +51,7 @@ class Events
     public static function onMessage($client_id, $message)
     {
         // debug
-        echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id session:" . json_encode($_SESSION) . " onMessage:" . $message . "\n";
+//        echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id session:" . json_encode($_SESSION) . " onMessage:" . $message . "\n";
 
         // 客户端传递的是json数据
         $message_data = json_decode($message, true);
@@ -50,6 +62,15 @@ class Events
         }
 
 
+        $result = (new \by\component\chat_server\action\MsgProcessAction())->index($client_id, $message_data);
+
+        if ($result->isFail()) {
+            $errResp = new \by\component\chat_server\resp\ErrorResp(['err_msg' => $result->getMsg()]);
+            \by\component\chat_server\helper\ResponseHelper::sendToOneByClientId($client_id, $errResp);
+        } else {
+            $resp = $result->getData();
+            \by\component\chat_server\helper\ResponseHelper::sendToOneByClientId($client_id, $resp);
+        }
 
     }
 
@@ -61,11 +82,38 @@ class Events
     public static function onClose($client_id)
     {
         // 从房间的客户端列表中删除
-        if (isset($_SESSION['room_id'])) {
-            $room_id = $_SESSION['room_id'];
-            $new_message = array('type' => 'logout', 'from_client_id' => $client_id, 'from_client_name' => $_SESSION['client_name'], 'time' => date('Y-m-d H:i:s'));
-            Gateway::sendToGroup($room_id, json_encode($new_message));
+
+    }
+
+    public static function update()
+    {
+        self::$tick++;
+        // 每3个Chat时钟时间更新一次context信息
+        if (self::$tick % 3 == 0) {
+            self::$context->setOnlineCustomerServiceCount(0);
+            self::$context->setServerRunTime(self::$context->getServerRunTime() + 3);
+            self::$context->setUserCount(\GatewayWorker\Lib\Gateway::getAllClientCount());
+            $onlineCustomerServiceCount = \GatewayWorker\Lib\Gateway::getClientCountByGroup(\by\component\chat_server\context\ChatContext::SERVICE_GROUP_ID);
+            self::$context->setOnlineCustomerServiceCount($onlineCustomerServiceCount);
+            self::$context->setOnlineCustomerServiceList(\GatewayWorker\Lib\Gateway::getClientInfoByGroup(\by\component\chat_server\context\ChatContext::SERVICE_GROUP_ID));
         }
+    }
+
+
+    /**
+     * 定时器
+     */
+    private static function initTimer()
+    {
+        \Workerman\Lib\Timer::add(\by\component\chat_server\context\ChatContext::CHAT_TICK, array('Events', 'update'), array(), true);
+    }
+
+
+    private static function initContext()
+    {
+        if (self::$context == null) self::$context = new \by\component\chat_server\context\ChatContext();
+        self::$context->setServerStartTime(time());
+        self::$context->setServerRunTime(0);
     }
 
 }

@@ -29,7 +29,6 @@ class LoginReq extends BaseReq
     private $nick;
     private $avatar;
     private $uid;
-    private $pwd;
 
     public function __construct($data = [])
     {
@@ -83,22 +82,6 @@ class LoginReq extends BaseReq
     public function setUid($uid)
     {
         $this->uid = $uid;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPwd()
-    {
-        return $this->pwd;
-    }
-
-    /**
-     * @param mixed $pwd
-     */
-    public function setPwd($pwd)
-    {
-        $this->pwd = $pwd;
     }
 
 }

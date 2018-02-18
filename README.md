@@ -15,6 +15,7 @@ JSON Protocol
     
 Special Business Packet
 1. Login Packet
+    make room
     msg_type: login
     req   
     content : nick, uid, avatar

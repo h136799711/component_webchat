@@ -29,8 +29,8 @@ class Events
      * 服务器端的全局统计信息
      * @var \by\component\chat_server\context\ChatContext
      */
-    private static $context = null;
-    private static $tick = 0;
+    public static $context = null;
+    public static $tick = 0;
 
     public static function onWorkerStart(\Workerman\Worker $businessWorker)
     {

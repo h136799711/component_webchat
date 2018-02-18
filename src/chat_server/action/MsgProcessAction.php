@@ -34,6 +34,9 @@ class MsgProcessAction
      */
     public function index($clientId, $message_data)
     {
+        if (count(self::$registerAction) == 0) {
+            self::initAction();
+        }
         //1. json消息转化为结构化的数据
         $res = ReqFactory::getOne($message_data);
         if ($res->isFail()) {

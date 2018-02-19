@@ -25,6 +25,11 @@ class ChatContext
      */
     const SERVICE_GROUP_ID = "S11111111";
 
+    /**
+     * 用户所在组
+     */
+    const USER_GROUP_ID = "S33333333";
+
     private $onlineCustomerServiceList;
     private $onlineCustomerServiceCount;
     private $userCount;

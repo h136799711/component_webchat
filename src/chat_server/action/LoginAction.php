@@ -43,8 +43,12 @@ class LoginAction
 
         if ($roomId == ChatContext::SERVICE_GROUP_ID) {
             // 发送新客服上线给客服组
-            $this->sendToServiceGroup($req);
+            $this->sendToServiceGroup($req, ChatContext::SERVICE_GROUP_ID);
             Gateway::joinGroup($clientId, ChatContext::SERVICE_GROUP_ID);
+        } elseif ($roomId == ChatContext::USER_GROUP_ID) {
+            // 通知客服有新用户咨询上线
+            $this->sendToServiceGroup($req, ChatContext::USER_GROUP_ID);
+            Gateway::joinGroup($clientId, ChatContext::USER_GROUP_ID);
         }
 
         Gateway::bindUid($clientId, $uid);
@@ -62,16 +66,17 @@ class LoginAction
 
     /**
      * @param LoginReq $req
+     * @param string $userType
      * @throws \Exception
      */
-    private function sendToServiceGroup(LoginReq $req)
+    private function sendToServiceGroup(LoginReq $req, $userType = ChatContext::SERVICE_GROUP_ID)
     {
         $newUserResp = new NewUserResp();
         $newUserResp->setRespTime(time());
         $newUserResp->setUid($req->getUid());
         $newUserResp->setAvatar($req->getAvatar());
         $newUserResp->setNick($req->getNick());
-        $newUserResp->setUserType(ChatContext::SERVICE_GROUP_ID);
+        $newUserResp->setUserType($userType);
         Gateway::sendToGroup(ChatContext::SERVICE_GROUP_ID, $newUserResp->toJson());
     }
 }

@@ -27,6 +27,8 @@ use by\component\chat_server\constants\RespType;
 class LoginResp extends BaseResp
 {
     private $uid;
+    private $nick;
+    private $avatar;
     private $clientId;
     private $onlineList;
 
@@ -34,6 +36,38 @@ class LoginResp extends BaseResp
     {
         parent::__construct($data);
         $this->setType(RespType::Login);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param mixed $avatar
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNick()
+    {
+        return $this->nick;
+    }
+
+    /**
+     * @param mixed $nick
+     */
+    public function setNick($nick)
+    {
+        $this->nick = $nick;
     }
 
     /**

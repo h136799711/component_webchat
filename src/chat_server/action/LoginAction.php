@@ -38,6 +38,8 @@ class LoginAction
         $resp = new LoginResp();
         $resp->setRespId($req->getReqId());
         $resp->setRespTime(time());
+        $resp->setAvatar($req->getAvatar());
+        $resp->setNick($nick);
         $resp->setClientId($clientId);
         $resp->setUid($uid);
 

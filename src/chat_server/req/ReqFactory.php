@@ -39,39 +39,12 @@ class ReqFactory
                 $req = new LoginReq($message_data);
                 break;
             // 客户端发言 message: {type:say, to_client_id:xx, content:xx}
-//            case ReqType::TextMessage:
-//
-//                // 非法请求
-//                if (!isset($_SESSION['room_id'])) {
-//                    throw new \Exception("\$_SESSION['room_id'] not set. client_ip:{$_SERVER['REMOTE_ADDR']}");
-//                }
-//                $room_id = $_SESSION['room_id'];
-//                $client_name = $_SESSION['client_name'];
-//
-//                // 私聊
-//                if ($message_data['to_client_id'] != 'all') {
-//                    $new_message = array(
-//                        'type' => 'say',
-//                        'from_client_id' => $client_id,
-//                        'from_client_name' => $client_name,
-//                        'to_client_id' => $message_data['to_client_id'],
-//                        'content' => "<b>对你说: </b>" . nl2br(htmlspecialchars($message_data['content'])),
-//                        'time' => date('Y-m-d H:i:s'),
-//                    );
-//                    Gateway::sendToClient($message_data['to_client_id'], json_encode($new_message));
-//                    $new_message['content'] = "<b>你对" . htmlspecialchars($message_data['to_client_name']) . "说: </b>" . nl2br(htmlspecialchars($message_data['content']));
-//                    return Gateway::sendToCurrentClient(json_encode($new_message));
-//                }
-//
-//                $new_message = array(
-//                    'type' => 'say',
-//                    'from_client_id' => $client_id,
-//                    'from_client_name' => $client_name,
-//                    'to_client_id' => 'all',
-//                    'content' => nl2br(htmlspecialchars($message_data['content'])),
-//                    'time' => date('Y-m-d H:i:s'),
-//                );
-//                return Gateway::sendToGroup($room_id, json_encode($new_message));
+            case ReqType::TextMessage:
+                $req = new TextMessageReq($message_data);
+                break;
+            case ReqType::OnlineUser:
+                $req = new ServiceOnlineUserReq($message_data);
+                break;
             default:
                 break;
         }

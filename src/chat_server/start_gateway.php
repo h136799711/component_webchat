@@ -18,13 +18,13 @@ use Workerman\Worker;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 // gateway 进程
-$gateway = new Gateway("Websocket://0.0.0.0:17272");
+$gateway = new Gateway("websocket://0.0.0.0:17272");
 // 设置名称，方便status时查看
 $gateway->name = 'ByWebChatGateway';
 // 设置进程数，gateway进程数建议与cpu核数相同
 $gateway->count = 4;
 // 分布式部署时请设置成内网ip（非127.0.0.1）
-$gateway->lanIp = '127.0.0.1';
+$gateway->lanIp = '172.17.172.3';
 // 内部通讯起始端口。假如$gateway->count=4，起始端口为2300
 // 则一般会使用2300 2301 2302 2303 4个端口作为内部通讯端口 
 $gateway->startPort = 2300;
@@ -33,7 +33,7 @@ $gateway->pingInterval = 10;
 // 心跳数据
 $gateway->pingData = '{"type":"ping"}';
 // 服务注册地址
-$gateway->registerAddress = '127.0.0.1:1236';
+$gateway->registerAddress = '47.93.184.114:1236';
 
 /* 
 // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调

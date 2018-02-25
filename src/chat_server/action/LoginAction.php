@@ -42,24 +42,25 @@ class LoginAction
         $resp->setNick($nick);
         $resp->setClientId($clientId);
         $resp->setUid($uid);
-
+        $onlineList = [];
         if ($roomId == ChatContext::SERVICE_GROUP_ID) {
             // 发送新客服上线给客服组
-            $this->sendToServiceGroup($req, ChatContext::SERVICE_GROUP_ID);
+            $this->sendToServiceGroup($clientId, $req, ChatContext::SERVICE_GROUP_ID);
+            $onlineList = Gateway::getClientInfoByGroup(ChatContext::USER_GROUP_ID);
             Gateway::joinGroup($clientId, ChatContext::SERVICE_GROUP_ID);
         } elseif ($roomId == ChatContext::USER_GROUP_ID) {
             // 通知客服有新用户咨询上线
-            $this->sendToServiceGroup($req, ChatContext::USER_GROUP_ID);
+            $this->sendToServiceGroup($clientId, $req, ChatContext::USER_GROUP_ID);
+            $onlineList = Gateway::getClientInfoByGroup(ChatContext::SERVICE_GROUP_ID);
             Gateway::joinGroup($clientId, ChatContext::USER_GROUP_ID);
         }
 
         Gateway::bindUid($clientId, $uid);
 
         $session = Gateway::getSession($clientId);
-        $session['userinfo'] = $req->toArray();
+        $session['userinfo'] = ['nick'=>$req->getNick(), 'uid'=>$req->getUid(), 'avatar' => $req->getAvatar(), 'client_id' => $clientId];
         Gateway::updateSession($clientId, $session);
-        $onlineList = Gateway::getClientInfoByGroup(ChatContext::SERVICE_GROUP_ID);
-        $resp->setOnlineList($onlineList);
+        $resp->setOnlineList(array_values($onlineList));
 
         Gateway::sendToClient($clientId, $resp->toJson());
 
@@ -71,7 +72,7 @@ class LoginAction
      * @param string $userType
      * @throws \Exception
      */
-    private function sendToServiceGroup(LoginReq $req, $userType = ChatContext::SERVICE_GROUP_ID)
+    private function sendToServiceGroup($clientId, LoginReq $req, $userType = ChatContext::SERVICE_GROUP_ID)
     {
         $newUserResp = new NewUserResp();
         $newUserResp->setRespTime(time());
@@ -79,6 +80,7 @@ class LoginAction
         $newUserResp->setAvatar($req->getAvatar());
         $newUserResp->setNick($req->getNick());
         $newUserResp->setUserType($userType);
+        $newUserResp->setClientId($clientId);
         Gateway::sendToGroup(ChatContext::SERVICE_GROUP_ID, $newUserResp->toJson());
     }
 }

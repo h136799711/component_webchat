@@ -17,11 +17,28 @@ class NewUserResp extends BaseResp
     private $uid;
     private $nick;
     private $avatar;
+    private $clientId;
 
     public function __construct($data = [])
     {
         parent::__construct($data);
         $this->setType(RespType::NewUser);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * @param mixed $clientId
+     */
+    public function setClientId($clientId)
+    {
+        $this->clientId = $clientId;
     }
 
     /**

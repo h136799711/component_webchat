@@ -83,7 +83,7 @@ class Events
         if (self::$tick % 3 == 0) {
             self::$context->setOnlineCustomerServiceCount(0);
             self::$context->setServerRunTime(self::$context->getServerRunTime() + 3);
-            self::$context->setUserCount(\GatewayWorker\Lib\Gateway::getAllClientCount());
+            self::$context->setUserCount(0);
             $onlineCustomerServiceCount = \GatewayWorker\Lib\Gateway::getClientCountByGroup(\by\component\chat_server\context\ChatContext::SERVICE_GROUP_ID);
             self::$context->setOnlineCustomerServiceCount($onlineCustomerServiceCount);
             self::$context->setOnlineCustomerServiceList(\GatewayWorker\Lib\Gateway::getClientInfoByGroup(\by\component\chat_server\context\ChatContext::SERVICE_GROUP_ID));

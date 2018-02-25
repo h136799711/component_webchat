@@ -23,7 +23,7 @@ namespace by\component\chat_server\constants;
  */
 class RespType
 {
-
+    const OnlineUser = "service:online_user";
     /**
      *
      */

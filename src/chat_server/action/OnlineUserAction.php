@@ -7,7 +7,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  * Revision History Version
  ********1.0.0********************
- * file created @ 2018-02-25 09:09
+ * file created @ 2018-02-25 15:12
  *********************************
  ********1.0.1********************
  *
@@ -17,41 +17,27 @@
 namespace by\component\chat_server\action;
 
 
+use by\component\chat_server\context\ChatContext;
 use by\component\chat_server\helper\ResponseHelper;
 use by\component\chat_server\req\BaseReq;
-use by\component\chat_server\req\TextMessageReq;
-use by\component\chat_server\resp\TextMessageResp;
+use by\component\chat_server\req\ServiceOnlineUserReq;
+use by\component\chat_server\resp\ServiceOnlineUserResp;
 use by\infrastructure\helper\CallResultHelper;
 use GatewayWorker\Lib\Gateway;
 
-class TextMessageAction
+class OnlineUserAction
 {
-
     public function process($clientId, BaseReq $req)
     {
-        if ($req instanceof TextMessageReq) {
-            $uid = $req->getToUid();
-            $resp = new TextMessageResp();
-            $resp->setRespTime($req->getReqTime());
-            $resp->setSendStatusMsg('1');
+        if ($req instanceof ServiceOnlineUserReq) {
 
-            // 返回发送成功
+            $data = Gateway::getClientInfoByGroup(ChatContext::USER_GROUP_ID);
+            $resp = new ServiceOnlineUserResp();
+            $resp->setOnlineUser(array_values($data));
             ResponseHelper::sendToOneByClientId($clientId, $resp);
-
-            $data = [
-                'type' => $req->getType(),
-                'from_uid' => $req->getFromUid(),
-                'to_uid' => $req->getToUid(),
-                'text' => $req->getText(),
-                'time' => $req->getReqTime(),
-                'avatar' => $req->getFromAvatar(),
-                'nick' => $req->getFromNick()
-            ];
-
-            // 转发消息
-            Gateway::sendToUid($uid, json_encode($data));
         }
 
         return CallResultHelper::success();
     }
+
 }

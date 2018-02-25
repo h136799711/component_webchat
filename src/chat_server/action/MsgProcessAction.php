@@ -25,6 +25,7 @@ class MsgProcessAction
         self::$registerAction[ReqType::Pong] = new PongAction();
         self::$registerAction[ReqType::Ping] = new HeartBeatAction();
         self::$registerAction[ReqType::Login] = new LoginAction();
+        self::$registerAction[ReqType::TextMessage] = new TextMessageAction();
     }
 
     /**
@@ -43,7 +44,6 @@ class MsgProcessAction
         if ($res->isFail()) {
             return $res;
         }
-
 
         $req = $res->getData();
         if (method_exists($req, "getType")) {

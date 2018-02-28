@@ -14,7 +14,7 @@ use by\component\chat_server\resp\HeartBeatResp;
 use by\infrastructure\helper\CallResultHelper;
 use GatewayWorker\Lib\Gateway;
 
-class HeartBeatAction
+class PingAction
 {
     public function process($clientId, BaseReq $req)
     {

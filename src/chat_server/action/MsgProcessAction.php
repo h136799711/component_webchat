@@ -24,7 +24,7 @@ class MsgProcessAction
     {
         self::$registerAction[ReqType::OnlineUser] = new OnlineUserAction();
         self::$registerAction[ReqType::Pong] = new PongAction();
-        self::$registerAction[ReqType::Ping] = new HeartBeatAction();
+        self::$registerAction[ReqType::Ping] = new PingAction();
         self::$registerAction[ReqType::Login] = new LoginAction();
         self::$registerAction[ReqType::TextMessage] = new TextMessageAction();
     }
